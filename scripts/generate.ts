@@ -33,7 +33,10 @@ function findInputFileInArguments(
 	if (!methodArguments?.length) return [];
 
 	for (const argument of methodArguments) {
-		if (argument.reference === "InputFile")
+		if (
+			argument.reference === "InputFile" ||
+			(argument.type === "string" && argument.name === "media")
+		)
 			fileArguments.push({
 				name: argumentName ?? argument.name,
 			});
@@ -97,14 +100,12 @@ function getPathToInputFile(
 	if (values.some((x) => x.type !== "array" && x.type !== "union"))
 		return "null";
 
-	const [value] = values;
-
 	return JSON.stringify(
-		{
+		values.map((value) => ({
 			name: value.name,
 			property: value.property,
 			type: value.type,
-		},
+		})),
 		null,
 		2,
 	);
@@ -118,11 +119,11 @@ fs.writeFile(
     type MethodsWithMediaUpload = {
         [Method in keyof ApiMethods]?: [(params: (NonNullable<
             Parameters<ApiMethods[Method]>[0]
-        >)) => boolean, { name: string; type?: "array" | "union"; property?: string } | null];
+        >)) => boolean, { name: string; type?: "array" | "union"; property?: string }[] | null];
     };
 
 	function isFile(file?: TelegramInputFile | string) {
-		if(!file || typeof file === "string") return false;
+		if(!file || typeof file !== "object") return false;
 
 		return file instanceof File;
 	}
