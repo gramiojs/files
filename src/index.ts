@@ -6,7 +6,7 @@ export * from "./test";
 
 export function isMediaUpload<T extends keyof ApiMethods>(
 	method: T,
-	params: ApiMethods[T],
+	params: NonNullable<Parameters<ApiMethods[T]>[0]>,
 ) {
 	const mediaMethod = MEDIA_METHODS[method];
 	if (!mediaMethod) return false;

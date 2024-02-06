@@ -6,28 +6,45 @@ function generateAttachId() {
 	return randomBytes(12).toString("hex");
 }
 
-export function convertJsonToFormData(
-	method: keyof ApiMethods,
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	params: Record<string, any>,
+export function convertJsonToFormData<T extends keyof ApiMethods>(
+	method: T,
+	params: NonNullable<Parameters<ApiMethods[T]>[0]>,
 ) {
 	const formData = new FormData();
 	const mediaMethod = MEDIA_METHODS[method];
 	if (!mediaMethod) throw new Error("no media method");
 
-	const extractor = mediaMethod[1];
-	if (extractor?.type === "union" && extractor.property) {
-		let file = params[extractor.property][extractor.name];
-		const attachId = generateAttachId();
-		formData.set(attachId, file);
-		file = `attach://${attachId}`;
-	}
-	if (extractor?.type === "array" && extractor.property) {
-		const array = params[extractor.property][extractor.name];
-		for (let file of array) {
+	const extractor = mediaMethod[1] || [];
+	for (const extractorValue of extractor) {
+		if (extractorValue.type === "union" && extractorValue.property) {
+			// Элемент неявно имеет тип "any", так как выражение типа "string" не может использоваться для индексации типа
+			//@ts-expect-error
+			const file = params[extractorValue.property][extractorValue.name];
+			if (!(file instanceof Blob)) continue;
+
 			const attachId = generateAttachId();
 			formData.set(attachId, file);
-			file = `attach://${attachId}`;
+
+			//@ts-expect-error
+			params[extractorValue.property][extractorValue.name] =
+				`attach://${attachId}`;
+		}
+		if (extractorValue.type === "array" && extractorValue.property) {
+			//@ts-expect-error
+			const array = params[extractorValue.property] as any[];
+
+			for (const [index, element] of array.entries()) {
+				const file = element[extractorValue.name];
+
+				if (!(file instanceof Blob)) continue;
+
+				const attachId = generateAttachId();
+				formData.set(attachId, file);
+
+				//@ts-expect-error
+				params[extractorValue.property][index][extractorValue.name] =
+					`attach://${attachId}`;
+			}
 		}
 	}
 
