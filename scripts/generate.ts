@@ -91,15 +91,34 @@ for (const method of schema.methods) {
 	}
 }
 
+function getPathToInputFile(
+	values: NonNullable<(typeof methods)["addStickerToSet"]>,
+) {
+	if (values.some((x) => x.type !== "array" && x.type !== "union"))
+		return "null";
+
+	const [value] = values;
+
+	return JSON.stringify(
+		{
+			name: value.name,
+			property: value.property,
+			type: value.type,
+		},
+		null,
+		2,
+	);
+}
+
 fs.writeFile(
 	"./src/test.ts",
 	await prettier.format(
 		`import { ApiMethods, TelegramInputFile } from "@gramio/types";
 
     type MethodsWithMediaUpload = {
-        [Method in keyof ApiMethods]?: (params: (NonNullable<
+        [Method in keyof ApiMethods]?: [(params: (NonNullable<
             Parameters<ApiMethods[Method]>[0]
-        >)) => boolean;
+        >)) => boolean, { name: string; type?: "array" | "union"; property?: string } | null];
     };
 
 	function isFile(file?: TelegramInputFile | string) {
@@ -112,21 +131,22 @@ fs.writeFile(
 			methods,
 		)
 			.map(([key, value]) => {
-				return `${key}: (params) => ${value
-					.map((x) =>
-						x.type === "array"
-							? `params.${x.property}.some(x => "${x.name}" in x && isFile(x.${x.name}))`
-							: `${
-									x.type === "union"
-										? `"${x.name}" in params${
-												x.property ? `.${x.property}` : ""
-										  } && `
-										: ""
-							  }isFile(params.${
-									x.property ? `${x.property}.${x.name}` : `${x.name}`
-							  })`,
-					)
-					.join(" || ")},`;
+				return `${key}: [(params) => ${value
+					.map((x) => {
+						if (x.type === "array")
+							return `params.${x.property}.some(x => "${x.name}" in x && isFile(x.${x.name}))`;
+
+						return `${
+							x.type === "union"
+								? `"${x.name}" in params${
+										x.property ? `.${x.property}` : ""
+								  } && `
+								: ""
+						}isFile(params.${
+							x.property ? `${x.property}.${x.name}` : `${x.name}`
+						})`;
+					})
+					.join(" || ")}, ${getPathToInputFile(value)}],`;
 			})
 			.join("\n")}}`,
 		{ tabWidth: 4, parser: "typescript", endOfLine: "auto", semi: false },
