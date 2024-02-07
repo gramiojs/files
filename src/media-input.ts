@@ -6,6 +6,7 @@ import {
 	TelegramInputMediaVideo,
 } from "@gramio/types";
 
+/** Class-helper with static methods that represents the content of a media message to be sent. */
 export class MediaInput {
 	/**
 	 * Represents an animation file (GIF or H.264/MPEG-4 AVC video without sound) to be sent.

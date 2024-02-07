@@ -3,9 +3,10 @@ import { basename } from "node:path";
 import { Readable } from "node:stream";
 import { convertStreamToBuffer } from "./utils";
 
+/** Class-helper with static methods for file uploading. */
 export class MediaUpload {
 	/**
-	 * Method for uploading Media File by local path
+	 * Method for uploading Media File by local path.
 	 */
 	static async path(path: string, filename?: string) {
 		const buffer = await fs.readFile(path);
@@ -14,23 +15,23 @@ export class MediaUpload {
 	}
 
 	/**
-	 * Method for uploading Media File by Readable stream
+	 * Method for uploading Media File by Readable stream.
 	 */
-	static async stream(stream: Readable, filename: string) {
+	static async stream(stream: Readable, filename = "file.stream") {
 		const buffer = await convertStreamToBuffer(stream);
 
 		return new File([buffer], filename);
 	}
 
 	/**
-	 * Method for uploading Media File by Buffer or ArrayBuffer
+	 * Method for uploading Media File by Buffer or ArrayBuffer.
 	 */
-	static buffer(buffer: Buffer | ArrayBuffer, filename: string) {
+	static buffer(buffer: Buffer | ArrayBuffer, filename = "file.buffer") {
 		return new File([buffer], filename);
 	}
 
 	/**
-	 * Method for uploading Media File by URL (also with fetch options)
+	 * Method for uploading Media File by URL (also with fetch options).
 	 */
 	static async url(
 		url: URL | string,
@@ -49,9 +50,9 @@ export class MediaUpload {
 	}
 
 	/**
-	 * Method for uploading Media File by text content
+	 *Method for uploading Media File by text content.
 	 */
-	static text(text: string, filename: string) {
+	static text(text: string, filename = "text.txt") {
 		return new File([text], filename);
 	}
 }

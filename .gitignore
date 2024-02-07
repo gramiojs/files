@@ -1,3 +1,4 @@
 dist
 node_modules
 tg-bot-api
+test.ts
