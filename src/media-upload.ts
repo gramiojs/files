@@ -35,4 +35,8 @@ export class MediaUpload {
 				(typeof url === "string" ? basename(url) : basename(url.pathname)),
 		);
 	}
+
+	static async text(text: string, filename: string) {
+		return new File([text], filename);
+	}
 }
