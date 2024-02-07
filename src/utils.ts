@@ -63,7 +63,8 @@ export async function convertJsonToFormData<T extends keyof ApiMethods>(
 		}
 	}
 
-	for (const [key, value] of Object.entries(params)) {
+	for (let [key, value] of Object.entries(params)) {
+		if (value instanceof Promise) value = await value;
 		if (value instanceof Blob) formData.set(key, value);
 		else if (typeof value === "object")
 			formData.set(key, JSON.stringify(value));
