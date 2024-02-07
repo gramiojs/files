@@ -1,7 +1,7 @@
 import { randomBytes } from "node:crypto";
 import { Readable } from "node:stream";
 import { ApiMethods } from "@gramio/types";
-import { MEDIA_METHODS } from "./test";
+import { MEDIA_METHODS } from "./media-methods-helper";
 
 export function isMediaUpload<T extends keyof ApiMethods>(
 	method: T,
@@ -18,7 +18,7 @@ function generateAttachId() {
 	return randomBytes(12).toString("hex");
 }
 
-export function convertJsonToFormData<T extends keyof ApiMethods>(
+export async function convertJsonToFormData<T extends keyof ApiMethods>(
 	method: T,
 	params: NonNullable<Parameters<ApiMethods[T]>[0]>,
 ) {
@@ -31,7 +31,9 @@ export function convertJsonToFormData<T extends keyof ApiMethods>(
 		if (extractorValue.type === "union" && extractorValue.property) {
 			// Элемент неявно имеет тип "any", так как выражение типа "string" не может использоваться для индексации типа
 			//@ts-expect-error
-			const file = params[extractorValue.property][extractorValue.name];
+			let file = params[extractorValue.property][extractorValue.name];
+			if (file instanceof Promise) file = await file;
+
 			if (!(file instanceof Blob)) continue;
 
 			const attachId = generateAttachId();
@@ -46,8 +48,9 @@ export function convertJsonToFormData<T extends keyof ApiMethods>(
 			const array = params[extractorValue.property] as any[];
 
 			for (const [index, element] of array.entries()) {
-				const file = element[extractorValue.name];
-
+				let file = element[extractorValue.name];
+				if (file instanceof Promise) file = await file;
+				console.log(file);
 				if (!(file instanceof Blob)) continue;
 
 				const attachId = generateAttachId();

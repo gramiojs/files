@@ -10,7 +10,7 @@ type MethodsWithMediaUpload = {
 export function isFile(file?: TelegramInputFile | object | string) {
     if (!file || typeof file !== "object") return false
 
-    return file instanceof File
+    return file instanceof File || file instanceof Promise
 }
 
 /** @codegenerated */

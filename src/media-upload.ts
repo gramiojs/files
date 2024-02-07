@@ -25,7 +25,7 @@ export class MediaUpload {
 	/**
 	 * Method for uploading Media File by Buffer or ArrayBuffer
 	 */
-	static async buffer(buffer: Buffer | ArrayBuffer, filename: string) {
+	static buffer(buffer: Buffer | ArrayBuffer, filename: string) {
 		return new File([buffer], filename);
 	}
 
@@ -51,7 +51,7 @@ export class MediaUpload {
 	/**
 	 * Method for uploading Media File by text content
 	 */
-	static async text(text: string, filename: string) {
+	static text(text: string, filename: string) {
 		return new File([text], filename);
 	}
 }
