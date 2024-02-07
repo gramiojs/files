@@ -4,22 +4,34 @@ import { Readable } from "node:stream";
 import { convertStreamToBuffer } from "./utils";
 
 export class MediaUpload {
+	/**
+	 * Method for uploading Media File by local path
+	 */
 	static async path(path: string, filename?: string) {
 		const buffer = await fs.readFile(path);
 
 		return new File([buffer], filename ?? basename(path));
 	}
 
+	/**
+	 * Method for uploading Media File by Readable stream
+	 */
 	static async stream(stream: Readable, filename: string) {
 		const buffer = await convertStreamToBuffer(stream);
 
 		return new File([buffer], filename);
 	}
 
+	/**
+	 * Method for uploading Media File by Buffer or ArrayBuffer
+	 */
 	static async buffer(buffer: Buffer | ArrayBuffer, filename: string) {
 		return new File([buffer], filename);
 	}
 
+	/**
+	 * Method for uploading Media File by URL (also with fetch options)
+	 */
 	static async url(
 		url: URL | string,
 		filename?: string,
@@ -36,6 +48,9 @@ export class MediaUpload {
 		);
 	}
 
+	/**
+	 * Method for uploading Media File by text content
+	 */
 	static async text(text: string, filename: string) {
 		return new File([text], filename);
 	}
