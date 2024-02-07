@@ -107,7 +107,7 @@ function getPathToInputFile(
 }
 
 fs.writeFile(
-	"./src/test.ts",
+	"./src/media-methods-helper.ts",
 	await prettier.format(
 		`import { ApiMethods, TelegramInputFile } from "@gramio/types";
 
