@@ -49,11 +49,11 @@ function findInputFileInArguments(
 		if (argument.reference && argument.reference !== "InputFile") {
 			const [referenceArguments, type] = resolveReference(argument.reference);
 
-			if (referenceArguments || type)
+			if (referenceArguments && type)
 				fileArguments.push(
 					...findInputFileInArguments(referenceArguments).map((x) => ({
 						name: x.name,
-						property: type === "any_of" ? argument.name : undefined,
+						property: argument.name,
 						type: type === "any_of" ? ("union" as const) : undefined,
 					})),
 				);
@@ -77,11 +77,6 @@ function findInputFileInArguments(
 
 for (const method of schema.methods) {
 	if (method.multipart_only && method.arguments?.length) {
-		if (method.name === "editMessageMedia")
-			console.log(
-				findInputFileInArguments(method.arguments),
-				resolveReference("InputMedia"),
-			);
 		// [INFO] Find only unique values (inspired by https://yagisanatode.com/get-a-unique-list-of-objects-in-an-array-of-object-in-javascript/)
 		methods[method.name] = [
 			...new Map(
@@ -122,12 +117,13 @@ fs.writeFile(
         >)) => boolean, { name: string; type?: "array" | "union"; property?: string }[] | null];
     };
 
-	function isFile(file?: TelegramInputFile | string) {
+	export function isFile(file?: TelegramInputFile | object | string) {
 		if(!file || typeof file !== "object") return false;
 
 		return file instanceof File;
 	}
 
+	/** @codegenerated */
     export const MEDIA_METHODS: MethodsWithMediaUpload = {${Object.entries(
 			methods,
 		)
