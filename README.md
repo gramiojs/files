@@ -1,3 +1,3 @@
 # @gramio/files
 
-WIP
+## Please see [Documentation](https://gramio.netlify.app/files/overview.html)

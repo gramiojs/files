@@ -1,17 +1,25 @@
 {
-  "name": "@gramio/files",
-  "main": "./dist/index.js",
-  "scripts": {
-    "generate": "bun scripts/generate.ts",
-    "lint": "bunx @biomejs/biome check ./src",
-    "lint:fix": "bun lint --apply"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "1.5.3",
-    "@gramio/types": "^7.0.13",
-    "@types/bun": "^1.0.5",
-    "@types/node": "^20.11.16",
-    "prettier": "^3.2.5",
-    "typescript": "^5.3.3"
-  }
+    "name": "@gramio/files",
+    "main": "./dist/index.js",
+    "version": "0.0.2",
+    "scripts": {
+        "generate": "bun scripts/generate.ts",
+        "prepublishOnly": "tsc",
+        "lint": "bunx @biomejs/biome check ./src",
+        "lint:fix": "bun lint --apply"
+    },
+    "devDependencies": {
+        "@biomejs/biome": "1.5.3",
+        "@gramio/types": "^7.0.14",
+        "@types/bun": "^1.0.5",
+        "@types/node": "^20.11.16",
+        "prettier": "^3.2.5",
+        "typescript": "^5.3.3"
+    },
+    "peerDependencies": {
+        "@gramio/types": "^7.0.14"
+    },
+    "files": [
+        "dist"
+    ]
 }
