@@ -1,6 +1,6 @@
 import { ApiMethods, TelegramInputFile } from "@gramio/types"
 
-export type Extractor = { name: string } & {
+export type Extractor = {
     name: string
     type: "array" | "union"
     property: string
