@@ -2,6 +2,14 @@
     "name": "@gramio/files",
     "main": "./dist/index.js",
     "version": "0.0.2",
+    "description": "Library for uploading files to Telegram and etc with files",
+    "keywords": [
+        "gramio",
+        "telegram",
+        "file",
+        "files",
+        "upload"
+    ],
     "scripts": {
         "generate": "bun scripts/generate.ts",
         "prepublishOnly": "tsc",

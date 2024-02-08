@@ -1,7 +1,7 @@
 import { randomBytes } from "node:crypto";
 import { Readable } from "node:stream";
 import { ApiMethods } from "@gramio/types";
-import { MEDIA_METHODS } from "./media-methods-helper";
+import { Extractor, MEDIA_METHODS } from "./media-methods-helper";
 
 export function isMediaUpload<T extends keyof ApiMethods>(
 	method: T,
@@ -10,12 +10,25 @@ export function isMediaUpload<T extends keyof ApiMethods>(
 	const mediaMethod = MEDIA_METHODS[method];
 	if (!mediaMethod) return false;
 
-	// Check is params has File???
+	// [INFO] Check is params has File???
 	return mediaMethod[0](params);
 }
 
 function generateAttachId() {
 	return randomBytes(12).toString("hex");
+}
+
+interface ExtractorTypings<T = Record<string, Promise<File> | File | string>> {
+	union: Record<string, T>;
+	array: Record<string, T[]>;
+}
+
+function isExtractor<T extends keyof ExtractorTypings>(
+	value: Extractor,
+	type: T,
+	params: unknown,
+): params is ExtractorTypings[T] {
+	return value.type === type;
 }
 
 export async function convertJsonToFormData<T extends keyof ApiMethods>(
@@ -28,9 +41,7 @@ export async function convertJsonToFormData<T extends keyof ApiMethods>(
 
 	const extractor = mediaMethod[1] || [];
 	for (const extractorValue of extractor) {
-		if (extractorValue.type === "union" && extractorValue.property) {
-			// Элемент неявно имеет тип "any", так как выражение типа "string" не может использоваться для индексации типа
-			//@ts-expect-error
+		if (isExtractor(extractorValue, "union", params)) {
 			let file = params[extractorValue.property][extractorValue.name];
 			if (file instanceof Promise) file = await file;
 
@@ -39,24 +50,21 @@ export async function convertJsonToFormData<T extends keyof ApiMethods>(
 			const attachId = generateAttachId();
 			formData.set(attachId, file);
 
-			//@ts-expect-error
 			params[extractorValue.property][extractorValue.name] =
 				`attach://${attachId}`;
 		}
-		if (extractorValue.type === "array" && extractorValue.property) {
-			//@ts-expect-error
-			const array = params[extractorValue.property] as any[];
+		if (isExtractor(extractorValue, "array", params)) {
+			const array = params[extractorValue.property];
 
 			for (const [index, element] of array.entries()) {
 				let file = element[extractorValue.name];
 				if (file instanceof Promise) file = await file;
-				console.log(file);
+
 				if (!(file instanceof Blob)) continue;
 
 				const attachId = generateAttachId();
 				formData.set(attachId, file);
 
-				//@ts-expect-error
 				params[extractorValue.property][index][extractorValue.name] =
 					`attach://${attachId}`;
 			}
@@ -65,6 +73,7 @@ export async function convertJsonToFormData<T extends keyof ApiMethods>(
 
 	for (let [key, value] of Object.entries(params)) {
 		if (value instanceof Promise) value = await value;
+
 		if (value instanceof Blob) formData.set(key, value);
 		else if (typeof value === "object")
 			formData.set(key, JSON.stringify(value));

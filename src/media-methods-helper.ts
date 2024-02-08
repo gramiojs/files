@@ -1,9 +1,14 @@
 import { ApiMethods, TelegramInputFile } from "@gramio/types"
 
+export type Extractor = { name: string } & {
+    name: string
+    type: "array" | "union"
+    property: string
+}
 type MethodsWithMediaUpload = {
     [Method in keyof ApiMethods]?: [
         (params: NonNullable<Parameters<ApiMethods[Method]>[0]>) => boolean,
-        { name: string; type?: "array" | "union"; property?: string }[] | null,
+        Extractor[] | null,
     ]
 }
 
