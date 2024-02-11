@@ -2,6 +2,7 @@ import fs from "node:fs/promises";
 import { ApiMethods } from "@gramio/types";
 import prettier from "prettier";
 import { IBotApi } from "./types";
+
 const SCHEMA_FILE_PATH = "./tg-bot-api/public/dev/custom.min.json";
 
 const schemaFile = await fs.readFile(SCHEMA_FILE_PATH);

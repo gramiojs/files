@@ -1,7 +1,8 @@
 {
     "name": "@gramio/files",
     "main": "./dist/index.js",
-    "version": "0.0.2",
+    "version": "0.0.3",
+    "type": "commonjs",
     "description": "Library for uploading files to Telegram and etc with files",
     "keywords": [
         "gramio",
