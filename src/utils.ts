@@ -1,11 +1,11 @@
 import { randomBytes } from "node:crypto";
-import { Readable } from "node:stream";
-import { ApiMethods } from "@gramio/types";
-import { Extractor, MEDIA_METHODS } from "./media-methods-helper";
+import type { Readable } from "node:stream";
+import type { APIMethodParams, APIMethods } from "@gramio/types";
+import { type Extractor, MEDIA_METHODS } from "./media-methods-helper";
 
-export function isMediaUpload<T extends keyof ApiMethods>(
+export function isMediaUpload<T extends keyof APIMethods>(
 	method: T,
-	params: NonNullable<Parameters<ApiMethods[T]>[0]>,
+	params: NonNullable<APIMethodParams<T>>,
 ) {
 	const mediaMethod = MEDIA_METHODS[method];
 	if (!mediaMethod) return false;
@@ -31,9 +31,9 @@ function isExtractor<T extends keyof ExtractorTypings>(
 	return value.type === type;
 }
 
-export async function convertJsonToFormData<T extends keyof ApiMethods>(
+export async function convertJsonToFormData<T extends keyof APIMethods>(
 	method: T,
-	params: NonNullable<Parameters<ApiMethods[T]>[0]>,
+	params: NonNullable<APIMethodParams<T>>,
 ) {
 	const formData = new FormData();
 	const mediaMethod = MEDIA_METHODS[method];
