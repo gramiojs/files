@@ -27,7 +27,7 @@ export class MediaUpload {
 	 * Method for uploading Media File by Buffer or ArrayBuffer.
 	 */
 	static buffer(buffer: Buffer | ArrayBuffer, filename = "file.buffer") {
-		return new File([buffer], filename);
+		return new File([new Blob([buffer])], filename);
 	}
 
 	/**
@@ -43,7 +43,7 @@ export class MediaUpload {
 		const buffer = await res.arrayBuffer();
 
 		return new File(
-			[buffer],
+			[new Blob([buffer])],
 			filename ??
 				(typeof url === "string" ? basename(url) : basename(url.pathname)),
 		);
