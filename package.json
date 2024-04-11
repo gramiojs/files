@@ -1,7 +1,7 @@
 {
     "name": "@gramio/files",
     "main": "./dist/index.js",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "type": "commonjs",
     "description": "Library for uploading files to Telegram and etc with files",
     "keywords": [
@@ -19,14 +19,13 @@
     },
     "devDependencies": {
         "@biomejs/biome": "1.6.4",
-        "@gramio/types": "^7.2.1",
         "@types/bun": "^1.0.12",
         "@types/node": "^20.12.7",
         "prettier": "^3.2.5",
         "typescript": "^5.4.5"
     },
-    "peerDependencies": {
-        "@gramio/types": "^7.2.0"
+    "dependencies": {
+        "@gramio/types": "^7.2.1"
     },
     "files": [
         "dist"
