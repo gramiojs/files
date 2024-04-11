@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
-import { ApiMethods } from "@gramio/types";
+import type { APIMethods } from "@gramio/types";
 import prettier from "prettier";
-import { IBotApi } from "./types";
+import type { IBotApi } from "./types";
 
 const SCHEMA_FILE_PATH = "./tg-bot-api/public/dev/custom.min.json";
 
@@ -10,7 +10,7 @@ const schema = JSON.parse(String(schemaFile)) as IBotApi.ISchema;
 
 const methods: Partial<
 	Record<
-		keyof ApiMethods,
+		keyof APIMethods,
 		{ name: string; type?: "array" | "union"; property?: string }[]
 	>
 > = {};
@@ -111,14 +111,12 @@ fs.writeFile(
 	"./src/media-methods-helper.ts",
 	await prettier.format(
 		/* ts */ `
-	import { ApiMethods, TelegramInputFile } from "@gramio/types";
+	import { APIMethods, APIMethodParams, TelegramInputFile } from "@gramio/types";
 
 
 	export type Extractor = { name: string; type: "array" | "union"; property: string };
     type MethodsWithMediaUpload = {
-        [Method in keyof ApiMethods]?: [(params: (NonNullable<
-            Parameters<ApiMethods[Method]>[0]
-        >)) => boolean, Extractor[] | null];
+        [Method in keyof APIMethods]?: [(params: (NonNullable<APIMethodParams<Method>>)) => boolean, Extractor[] | null];
     };
 
 	export function isFile(file?: TelegramInputFile | object | string) {
@@ -137,11 +135,11 @@ fs.writeFile(
 						if (x.type === "array")
 							return `params.${x.property}.some(x => "${x.name}" in x && isFile(x.${x.name}))`;
 
-						return `${
+						return /* ts */ `${
 							x.type === "union"
 								? `"${x.name}" in params${
 										x.property ? `.${x.property}` : ""
-								  } && `
+									} && `
 								: ""
 						}isFile(params.${
 							x.property ? `${x.property}.${x.name}` : `${x.name}`
