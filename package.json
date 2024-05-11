@@ -1,9 +1,9 @@
 {
     "name": "@gramio/files",
     "main": "./dist/index.js",
-    "version": "0.0.5",
+    "version": "0.0.6",
     "type": "commonjs",
-    "description": "Library for uploading files to Telegram and etc with files",
+    "description": "Set of utils for work with files and Telegram Bot API",
     "keywords": [
         "gramio",
         "telegram",
@@ -15,17 +15,18 @@
         "generate": "bun scripts/generate.ts",
         "prepublishOnly": "tsc",
         "lint": "bunx @biomejs/biome check ./src",
-        "lint:fix": "bun lint --apply"
+        "lint:fix": "bun lint --apply",
+        "jsr": "bun scripts/release-jsr.ts"
     },
     "devDependencies": {
-        "@biomejs/biome": "1.6.4",
-        "@types/bun": "^1.0.12",
-        "@types/node": "^20.12.7",
+        "@biomejs/biome": "1.7.3",
+        "@types/bun": "^1.1.1",
+        "@types/node": "^20.12.11",
         "prettier": "^3.2.5",
         "typescript": "^5.4.5"
     },
     "dependencies": {
-        "@gramio/types": "^7.2.1"
+        "@gramio/types": "^7.3.4"
     },
     "files": [
         "dist"

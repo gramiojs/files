@@ -16,7 +16,7 @@ type MethodsWithMediaUpload = {
 	];
 };
 
-/** guard for check is it File or Promise */
+/** Guard for check is it File or Promise */
 export function isFile(file?: TelegramInputFile | object | string) {
 	if (!file || typeof file !== "object") return false;
 
