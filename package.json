@@ -1,7 +1,7 @@
 {
     "name": "@gramio/files",
     "main": "./dist/index.js",
-    "version": "0.0.7",
+    "version": "0.0.8",
     "type": "commonjs",
     "description": "Set of utils for work with files and Telegram Bot API",
     "keywords": [

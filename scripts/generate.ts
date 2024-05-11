@@ -126,7 +126,11 @@ fs.writeFile(
 		return file instanceof File || file instanceof Promise;
 	}
 
-	/** @codegenerated */
+	/**
+	 * A set of methods with the function of checking whether a file has been passed in the parameters
+	 * 
+	 * @codegenerated 
+	 * */
     export const MEDIA_METHODS: MethodsWithMediaUpload = {${Object.entries(
 			methods,
 		)

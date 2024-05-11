@@ -3,6 +3,8 @@
  *
  * Set of utils for work with files and Telegram Bot API
  *
+ * [Documentation](https://gramio.netlify.app/files/overview.html)
+ *
  * @example
  * ```typescript
  * import { MediaInput, MediaUpload } from "@gramio/files";

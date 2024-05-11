@@ -3,7 +3,11 @@ import { basename } from "node:path";
 import type { Readable } from "node:stream";
 import { convertStreamToBuffer } from "./utils";
 
-/** Class-helper with static methods for file uploading. */
+/**
+ * Class-helper with static methods for file uploading.
+ *
+ * [Documentation](https://gramio.netlify.app/files/media-upload.html)
+ */
 export class MediaUpload {
 	/**
 	 * Method for uploading Media File by local path.

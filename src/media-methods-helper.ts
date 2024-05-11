@@ -16,14 +16,18 @@ type MethodsWithMediaUpload = {
 	];
 };
 
-/** Guard for check is it File or Promise */
+/** Guard for check is it {@link File} or {@link Promise} */
 export function isFile(file?: TelegramInputFile | object | string) {
 	if (!file || typeof file !== "object") return false;
 
 	return file instanceof File || file instanceof Promise;
 }
 
-/** @codegenerated */
+/**
+ * A set of methods with the function of checking whether a {@link File} has been passed in the parameters
+ *
+ * @codegenerated
+ * */
 export const MEDIA_METHODS: MethodsWithMediaUpload = {
 	setWebhook: [(params) => isFile(params.certificate), null],
 	sendPhoto: [(params) => isFile(params.photo), null],
