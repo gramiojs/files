@@ -114,7 +114,7 @@ fs.writeFile(
 	import { APIMethods, APIMethodParams, TelegramInputFile } from "@gramio/types";
 
 
-	type Extractor = { name: string; type: "array" | "union"; property: string };
+	export type Extractor = { name: string; type: "array" | "union"; property: string };
     type MethodsWithMediaUpload = {
         [Method in keyof APIMethods]?: [(params: (NonNullable<APIMethodParams<Method>>)) => boolean, Extractor[] | null];
     };

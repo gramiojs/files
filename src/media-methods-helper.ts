@@ -4,7 +4,7 @@ import type {
 	TelegramInputFile,
 } from "@gramio/types";
 
-type Extractor = {
+export type Extractor = {
 	name: string;
 	type: "array" | "union";
 	property: string;
