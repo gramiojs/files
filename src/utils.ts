@@ -3,6 +3,7 @@ import type { Readable } from "node:stream";
 import type { APIMethodParams, APIMethods } from "@gramio/types";
 import { type Extractor, MEDIA_METHODS } from "./media-methods-helper";
 
+/** Guard to check is method used for File Uploading */
 export function isMediaUpload<T extends keyof APIMethods>(
 	method: T,
 	params: NonNullable<APIMethodParams<T>>,
@@ -31,6 +32,12 @@ function isExtractor<T extends keyof ExtractorTypings>(
 	return value.type === type;
 }
 
+/**
+ * Helper to convert JSON to FormData that can accept Telegram Bot API.
+ * if File is not top-level property it will be `“attach://<file_attach_name>”`
+ *
+ * [Documentation](https://core.telegram.org/bots/api#inputfile)
+ */
 export async function convertJsonToFormData<T extends keyof APIMethods>(
 	method: T,
 	params: NonNullable<APIMethodParams<T>>,
@@ -83,6 +90,7 @@ export async function convertJsonToFormData<T extends keyof APIMethods>(
 	return formData;
 }
 
+/** Helper for convert Readable stream to buffer */
 export function convertStreamToBuffer(stream: Readable): Promise<Buffer> {
 	return new Promise((resolve) => {
 		const chunks: Buffer[] = [];

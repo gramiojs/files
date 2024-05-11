@@ -26,7 +26,7 @@ export class MediaUpload {
 	/**
 	 * Method for uploading Media File by Buffer or ArrayBuffer.
 	 */
-	static buffer(buffer: Buffer | ArrayBuffer, filename = "file.buffer") {
+	static buffer(buffer: Buffer | ArrayBuffer, filename = "file.buffer"): File {
 		return new File([new Blob([buffer])], filename);
 	}
 
@@ -50,7 +50,7 @@ export class MediaUpload {
 	}
 
 	/**
-	 *Method for uploading Media File by text content.
+	 * Method for uploading Media File by text content.
 	 */
 	static text(text: string, filename = "text.txt") {
 		return new File([text], filename);
