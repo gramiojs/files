@@ -4,7 +4,7 @@
  * Set of utils for work with files and Telegram Bot API
  *
  * @example
- * ```
+ * ```typescript
  * import { MediaInput, MediaUpload } from "@gramio/files";
  *
  * // method for sendMediaGroup

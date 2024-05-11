@@ -11,7 +11,7 @@ export class MediaInput {
 	/**
 	 * Represents an animation file (GIF or H.264/MPEG-4 AVC video without sound) to be sent.
 	 *
-	 * {@link https://core.telegram.org/bots/api/#inputmediaanimation | [Documentation]}
+	 * [Documentation](https://core.telegram.org/bots/api/#inputmediaanimation)
 	 */
 	static animation(
 		media: TelegramInputMediaAnimation["media"],
@@ -27,7 +27,7 @@ export class MediaInput {
 	/**
 	 * Represents a general file to be sent.
 	 *
-	 * {@link https://core.telegram.org/bots/api/#inputmediadocument | [Documentation]}
+	 * [Documentation](https://core.telegram.org/bots/api/#inputmediadocument)
 	 */
 	static document(
 		media: TelegramInputMediaDocument["media"],
@@ -43,7 +43,7 @@ export class MediaInput {
 	/**
 	 * Represents an audio file to be treated as music to be sent.
 	 *
-	 * {@link https://core.telegram.org/bots/api/#inputmediaaudio | [Documentation]}
+	 * [Documentation](https://core.telegram.org/bots/api/#inputmediaaudio)
 	 */
 	static audio(
 		media: TelegramInputMediaAudio["media"],
@@ -59,7 +59,7 @@ export class MediaInput {
 	/**
 	 * Represents a photo to be sent.
 	 *
-	 * {@link https://core.telegram.org/bots/api/#inputmediaphoto | [Documentation]}
+	 * [Documentation](https://core.telegram.org/bots/api/#inputmediaphoto)
 	 */
 	static photo(
 		media: TelegramInputMediaPhoto["media"],
@@ -75,7 +75,7 @@ export class MediaInput {
 	/**
 	 * Represents a video to be sent.
 	 *
-	 * {@link https://core.telegram.org/bots/api/#inputmediavideo | [Documentation]}
+	 * [Documentation](https://core.telegram.org/bots/api/#inputmediavideo)
 	 */
 	static video(
 		media: TelegramInputMediaVideo["media"],
