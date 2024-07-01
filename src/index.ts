@@ -3,7 +3,7 @@
  *
  * Set of utils for work with files and Telegram Bot API
  *
- * [Documentation](https://gramio.netlify.app/files/overview.html)
+ * [Documentation](https://gramio.dev/files/overview.html)
  *
  * @example
  * ```typescript

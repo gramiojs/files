@@ -9,7 +9,7 @@ import type {
 /**
  *  Class-helper with static methods that represents the content of a media message to be sent.
  *
- * [Documentation](https://gramio.netlify.app/files/media-input.html)
+ * [Documentation](https://gramio.dev/files/media-input.html)
  */
 export class MediaInput {
 	/**
