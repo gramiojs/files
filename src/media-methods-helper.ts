@@ -52,6 +52,16 @@ export const MEDIA_METHODS: MethodsWithMediaUpload = {
 		(params) => isFile(params.video_note) || isFile(params.thumbnail),
 		null,
 	],
+	sendPaidMedia: [
+		(params) => params.media.some((x) => "media" in x && isFile(x.media)),
+		[
+			{
+				name: "media",
+				property: "media",
+				type: "array",
+			},
+		],
+	],
 	sendMediaGroup: [
 		(params) =>
 			params.media.some((x) => "media" in x && isFile(x.media)) ||
