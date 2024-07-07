@@ -1,34 +1,34 @@
 {
-  "name": "@gramio/files",
-  "main": "./dist/index.js",
-  "version": "0.0.10",
-  "type": "commonjs",
-  "description": "Set of utils for work with files and Telegram Bot API",
-  "keywords": [
-    "gramio",
-    "telegram",
-    "file",
-    "files",
-    "upload"
-  ],
-  "scripts": {
-    "generate": "bun scripts/generate.ts",
-    "prepublishOnly": "tsc",
-    "lint": "bunx @biomejs/biome check ./src",
-    "lint:fix": "bun lint --apply",
-    "jsr": "bun scripts/release-jsr.ts"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "1.7.3",
-    "@types/bun": "^1.1.6",
-    "@types/node": "^20.14.10",
-    "prettier": "^3.3.2",
-    "typescript": "^5.5.3"
-  },
-  "dependencies": {
-    "@gramio/types": "^7.7.0"
-  },
-  "files": [
-    "dist"
-  ]
+    "name": "@gramio/files",
+    "main": "./dist/index.js",
+    "version": "0.0.11",
+    "type": "commonjs",
+    "description": "Set of utils for work with files and Telegram Bot API",
+    "keywords": [
+        "gramio",
+        "telegram",
+        "file",
+        "files",
+        "upload"
+    ],
+    "scripts": {
+        "generate": "bun scripts/generate.ts",
+        "prepublishOnly": "tsc",
+        "lint": "bunx @biomejs/biome check ./src",
+        "lint:fix": "bun lint --apply",
+        "jsr": "bun scripts/release-jsr.ts"
+    },
+    "devDependencies": {
+        "@biomejs/biome": "1.7.3",
+        "@types/bun": "^1.1.6",
+        "@types/node": "^20.14.10",
+        "prettier": "^3.3.2",
+        "typescript": "^5.5.3"
+    },
+    "dependencies": {
+        "@gramio/types": "^7.7.0"
+    },
+    "files": [
+        "dist"
+    ]
 }
