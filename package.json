@@ -21,12 +21,12 @@
   "devDependencies": {
     "@biomejs/biome": "1.7.3",
     "@types/bun": "^1.1.6",
-    "@types/node": "^20.14.9",
+    "@types/node": "^20.14.10",
     "prettier": "^3.3.2",
     "typescript": "^5.5.3"
   },
   "dependencies": {
-    "@gramio/types": "^7.6.0"
+    "@gramio/types": "^7.7.0"
   },
   "files": [
     "dist"

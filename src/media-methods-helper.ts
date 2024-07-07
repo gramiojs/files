@@ -16,11 +16,11 @@ type MethodsWithMediaUpload = {
 	];
 };
 
-/** Guard for check is it {@link File} or {@link Promise} */
-export function isFile(file?: TelegramInputFile | object | string) {
-	if (!file || typeof file !== "object") return false;
+/** Guard for check is it {@link Blob} or {@link Promise} */
+export function isBlob(blob?: TelegramInputFile | object | string) {
+	if (!blob || typeof blob !== "object") return false;
 
-	return file instanceof File || file instanceof Promise;
+	return blob instanceof Blob || blob instanceof Promise;
 }
 
 /**
@@ -29,31 +29,31 @@ export function isFile(file?: TelegramInputFile | object | string) {
  * @codegenerated
  * */
 export const MEDIA_METHODS: MethodsWithMediaUpload = {
-	setWebhook: [(params) => isFile(params.certificate), null],
-	sendPhoto: [(params) => isFile(params.photo), null],
+	setWebhook: [(params) => isBlob(params.certificate), null],
+	sendPhoto: [(params) => isBlob(params.photo), null],
 	sendAudio: [
-		(params) => isFile(params.audio) || isFile(params.thumbnail),
+		(params) => isBlob(params.audio) || isBlob(params.thumbnail),
 		null,
 	],
 	sendDocument: [
-		(params) => isFile(params.document) || isFile(params.thumbnail),
+		(params) => isBlob(params.document) || isBlob(params.thumbnail),
 		null,
 	],
 	sendVideo: [
-		(params) => isFile(params.video) || isFile(params.thumbnail),
+		(params) => isBlob(params.video) || isBlob(params.thumbnail),
 		null,
 	],
 	sendAnimation: [
-		(params) => isFile(params.animation) || isFile(params.thumbnail),
+		(params) => isBlob(params.animation) || isBlob(params.thumbnail),
 		null,
 	],
-	sendVoice: [(params) => isFile(params.voice), null],
+	sendVoice: [(params) => isBlob(params.voice), null],
 	sendVideoNote: [
-		(params) => isFile(params.video_note) || isFile(params.thumbnail),
+		(params) => isBlob(params.video_note) || isBlob(params.thumbnail),
 		null,
 	],
 	sendPaidMedia: [
-		(params) => params.media.some((x) => "media" in x && isFile(x.media)),
+		(params) => params.media.some((x) => "media" in x && isBlob(x.media)),
 		[
 			{
 				name: "media",
@@ -64,8 +64,8 @@ export const MEDIA_METHODS: MethodsWithMediaUpload = {
 	],
 	sendMediaGroup: [
 		(params) =>
-			params.media.some((x) => "media" in x && isFile(x.media)) ||
-			params.media.some((x) => "thumbnail" in x && isFile(x.thumbnail)),
+			params.media.some((x) => "media" in x && isBlob(x.media)) ||
+			params.media.some((x) => "thumbnail" in x && isBlob(x.thumbnail)),
 		[
 			{
 				name: "media",
@@ -79,11 +79,11 @@ export const MEDIA_METHODS: MethodsWithMediaUpload = {
 			},
 		],
 	],
-	setChatPhoto: [(params) => isFile(params.photo), null],
+	setChatPhoto: [(params) => isBlob(params.photo), null],
 	editMessageMedia: [
 		(params) =>
-			("media" in params.media && isFile(params.media.media)) ||
-			("thumbnail" in params.media && isFile(params.media.thumbnail)),
+			("media" in params.media && isBlob(params.media.media)) ||
+			("thumbnail" in params.media && isBlob(params.media.thumbnail)),
 		[
 			{
 				name: "media",
@@ -97,11 +97,11 @@ export const MEDIA_METHODS: MethodsWithMediaUpload = {
 			},
 		],
 	],
-	sendSticker: [(params) => isFile(params.sticker), null],
-	uploadStickerFile: [(params) => isFile(params.sticker), null],
+	sendSticker: [(params) => isBlob(params.sticker), null],
+	uploadStickerFile: [(params) => isBlob(params.sticker), null],
 	createNewStickerSet: [
 		(params) =>
-			params.stickers.some((x) => "sticker" in x && isFile(x.sticker)),
+			params.stickers.some((x) => "sticker" in x && isBlob(x.sticker)),
 		[
 			{
 				name: "sticker",
@@ -110,7 +110,7 @@ export const MEDIA_METHODS: MethodsWithMediaUpload = {
 			},
 		],
 	],
-	addStickerToSet: [(params) => isFile(params.sticker.sticker), null],
-	replaceStickerInSet: [(params) => isFile(params.sticker.sticker), null],
-	setStickerSetThumbnail: [(params) => isFile(params.thumbnail), null],
+	addStickerToSet: [(params) => isBlob(params.sticker.sticker), null],
+	replaceStickerInSet: [(params) => isBlob(params.sticker.sticker), null],
+	setStickerSetThumbnail: [(params) => isBlob(params.thumbnail), null],
 };

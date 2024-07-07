@@ -22,6 +22,6 @@
  */
 
 export * from "./utils";
-export { isFile, MEDIA_METHODS } from "./media-methods-helper";
+export { isBlob, MEDIA_METHODS } from "./media-methods-helper";
 export * from "./media-input";
 export * from "./media-upload";

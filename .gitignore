@@ -3,3 +3,4 @@ node_modules
 tg-bot-api
 test.ts
 tsconfig.tsbuildinfo
+build.ts

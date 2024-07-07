@@ -119,11 +119,11 @@ fs.writeFile(
         [Method in keyof APIMethods]?: [(params: (NonNullable<APIMethodParams<Method>>)) => boolean, Extractor[] | null];
     };
 
-	/** Guard for check is it File or Promise */
-	export function isFile(file?: TelegramInputFile | object | string) {
-		if(!file || typeof file !== "object") return false;
+	/** Guard for check is it {@link Blob} or {@link Promise} */
+	export function isBlob(blob?: TelegramInputFile | object | string) {
+		if (!blob || typeof blob !== "object") return false;
 
-		return file instanceof File || file instanceof Promise;
+		return blob instanceof Blob || blob instanceof Promise;
 	}
 
 	/**
@@ -138,7 +138,7 @@ fs.writeFile(
 				return `${key}: [(params) => ${value
 					.map((x) => {
 						if (x.type === "array")
-							return `params.${x.property}.some(x => "${x.name}" in x && isFile(x.${x.name}))`;
+							return `params.${x.property}.some(x => "${x.name}" in x && isBlob(x.${x.name}))`;
 
 						return /* ts */ `${
 							x.type === "union"
@@ -146,7 +146,7 @@ fs.writeFile(
 										x.property ? `.${x.property}` : ""
 									} && `
 								: ""
-						}isFile(params.${
+						}isBlob(params.${
 							x.property ? `${x.property}.${x.name}` : `${x.name}`
 						})`;
 					})
