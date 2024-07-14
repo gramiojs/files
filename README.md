@@ -8,4 +8,4 @@
 
 ## Please see [Documentation](https://gramio.dev/files/overview.html) and [API Reference](https://jsr.io/@gramio/files/doc)
 
-Currently, support Telegram Bot API v7.6+
+Currently, support Telegram Bot API v7.7+

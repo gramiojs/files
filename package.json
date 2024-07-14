@@ -26,9 +26,10 @@
         "typescript": "^5.5.3"
     },
     "dependencies": {
-        "@gramio/types": "^7.7.0"
+        "@gramio/types": "^7.7.1"
     },
     "files": [
         "dist"
-    ]
+    ],
+    "license": "MIT"
 }
