@@ -1,7 +1,7 @@
 import { randomBytes } from "node:crypto";
 import type { Readable } from "node:stream";
 import type { APIMethodParams, APIMethods } from "@gramio/types";
-import { type Extractor, MEDIA_METHODS } from "./media-methods-helper";
+import { type Extractor, MEDIA_METHODS } from "./media-methods-helper.js";
 
 /** Guard to check is method used for File Uploading */
 export function isMediaUpload<T extends keyof APIMethods>(

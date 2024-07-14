@@ -21,7 +21,7 @@
  * ```
  */
 
-export * from "./utils";
-export { isBlob, MEDIA_METHODS } from "./media-methods-helper";
-export * from "./media-input";
-export * from "./media-upload";
+export * from "./utils.js";
+export { isBlob, MEDIA_METHODS } from "./media-methods-helper.js";
+export * from "./media-input.js";
+export * from "./media-upload.js";

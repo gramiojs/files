@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import { basename } from "node:path";
 import type { Readable } from "node:stream";
-import { convertStreamToBuffer } from "./utils";
+import { convertStreamToBuffer } from "./utils.js";
 
 /**
  * Class-helper with static methods for file uploading.

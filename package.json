@@ -1,8 +1,20 @@
 {
     "name": "@gramio/files",
-    "main": "./dist/index.js",
+    "main": "./dist/index.cjs",
+    "module": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+        "import": {
+            "types": "./dist/index.d.ts",
+            "default": "./dist/index.js"
+        },
+        "require": {
+            "types": "./dist/index.d.cts",
+            "default": "./dist/index.cjs"
+        }
+    },
     "version": "0.0.11",
-    "type": "commonjs",
+    "type": "module",
     "description": "Set of utils for work with files and Telegram Bot API",
     "keywords": [
         "gramio",
@@ -22,6 +34,7 @@
         "@biomejs/biome": "1.7.3",
         "@types/bun": "^1.1.6",
         "@types/node": "^20.14.10",
+        "pkgroll": "^2.1.1",
         "prettier": "^3.3.2",
         "typescript": "^5.5.3"
     },
