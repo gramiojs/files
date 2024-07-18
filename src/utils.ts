@@ -44,9 +44,8 @@ export async function convertJsonToFormData<T extends keyof APIMethods>(
 ) {
 	const formData = new FormData();
 	const mediaMethod = MEDIA_METHODS[method];
-	if (!mediaMethod) throw new Error("no media method");
+	const extractor = mediaMethod?.[1] || [];
 
-	const extractor = mediaMethod[1] || [];
 	for (const extractorValue of extractor) {
 		if (isExtractor(extractorValue, "union", params)) {
 			let file = params[extractorValue.property][extractorValue.name];
