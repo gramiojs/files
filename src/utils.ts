@@ -1,4 +1,3 @@
-import { randomBytes } from "node:crypto";
 import type { Readable } from "node:stream";
 import type { APIMethodParams, APIMethods } from "@gramio/types";
 import { type Extractor, MEDIA_METHODS } from "./media-methods-helper.js";
@@ -16,7 +15,7 @@ export function isMediaUpload<T extends keyof APIMethods>(
 }
 
 function generateAttachId() {
-	return randomBytes(12).toString("hex");
+	return String(crypto.getRandomValues(new Uint32Array(1))[0]);
 }
 
 interface ExtractorTypings<T = Record<string, Promise<File> | File | string>> {
@@ -44,8 +43,9 @@ export async function convertJsonToFormData<T extends keyof APIMethods>(
 ) {
 	const formData = new FormData();
 	const mediaMethod = MEDIA_METHODS[method];
-	const extractor = mediaMethod?.[1] || [];
+	const extractor = mediaMethod?.[1] ?? [];
 
+	let attachId = 0;
 	for (const extractorValue of extractor) {
 		if (isExtractor(extractorValue, "union", params)) {
 			let file = params[extractorValue.property][extractorValue.name];
@@ -53,11 +53,11 @@ export async function convertJsonToFormData<T extends keyof APIMethods>(
 
 			if (!(file instanceof Blob)) continue;
 
-			const attachId = generateAttachId();
-			formData.set(attachId, file);
+			const currentAttachId = attachId++;
+			formData.set(`file-${currentAttachId}`, file);
 
 			params[extractorValue.property][extractorValue.name] =
-				`attach://${attachId}`;
+				`attach://file-${currentAttachId}`;
 		}
 		if (isExtractor(extractorValue, "array", params)) {
 			const array = params[extractorValue.property];
@@ -68,11 +68,11 @@ export async function convertJsonToFormData<T extends keyof APIMethods>(
 
 				if (!(file instanceof Blob)) continue;
 
-				const attachId = generateAttachId();
-				formData.set(attachId, file);
+				const currentAttachId = attachId++;
+				formData.set(`file-${currentAttachId}`, file);
 
 				params[extractorValue.property][index][extractorValue.name] =
-					`attach://${attachId}`;
+					`attach://file-${currentAttachId}`;
 			}
 		}
 	}
