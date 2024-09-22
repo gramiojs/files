@@ -1,49 +1,43 @@
 {
-    "name": "@gramio/files",
-    "main": "./dist/index.cjs",
-    "module": "./dist/index.js",
-    "types": "./dist/index.d.ts",
-    "exports": {
-        "import": {
-            "types": "./dist/index.d.ts",
-            "default": "./dist/index.js"
-        },
-        "require": {
-            "types": "./dist/index.d.cts",
-            "default": "./dist/index.cjs"
-        }
-    },
-    "version": "0.0.12",
-    "type": "module",
-    "description": "Set of utils for work with files and Telegram Bot API",
-    "keywords": [
-        "gramio",
-        "telegram",
-        "file",
-        "files",
-        "upload"
-    ],
-    "scripts": {
-        "generate": "bun scripts/generate.ts",
-        "prepublishOnly": "bunx pkgroll",
-        "lint": "bunx @biomejs/biome check ./src",
-        "lint:fix": "bun lint --apply",
-        "jsr": "bun scripts/release-jsr.ts"
-    },
-    "devDependencies": {
-        "@biomejs/biome": "1.7.3",
-        "@types/bun": "^1.1.6",
-        "@types/node": "^20.14.10",
-        "mitata": "^0.1.11",
-        "pkgroll": "^2.1.1",
-        "prettier": "^3.3.2",
-        "typescript": "^5.5.3"
-    },
-    "dependencies": {
-        "@gramio/types": "^7.7.1"
-    },
-    "files": [
-        "dist"
-    ],
-    "license": "MIT"
+	"name": "@gramio/files",
+	"main": "./dist/index.cjs",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		"import": {
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
+		},
+		"require": {
+			"types": "./dist/index.d.cts",
+			"default": "./dist/index.cjs"
+		}
+	},
+	"version": "0.1.0",
+	"type": "module",
+	"description": "Set of utils for work with files and Telegram Bot API",
+	"keywords": ["gramio", "telegram", "file", "files", "upload"],
+	"scripts": {
+		"generate": "bun scripts/generate.ts",
+		"prepublishOnly": "bunx pkgroll",
+		"lint": "bunx @biomejs/biome check ./src",
+		"lint:fix": "bun lint --apply",
+		"jsr": "bun scripts/release-jsr.ts"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "1.9.2",
+		"@types/bun": "^1.1.10",
+		"@types/node": "^22.5.5",
+		"gramio": "^0.0.50",
+		"mitata": "^1.0.2",
+		"pkgroll": "^2.5.0",
+		"prettier": "^3.3.3",
+		"typescript": "^5.6.2",
+		"xlsxtable": "^0.3.1"
+	},
+	"dependencies": {
+		"@gramio/types": "^7.10.1"
+	},
+	"files": ["dist"],
+	"license": "MIT"
 }
