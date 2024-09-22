@@ -1,6 +1,7 @@
+import type { BinaryLike } from "node:crypto";
 import fs from "node:fs/promises";
 import { basename } from "node:path";
-import type { Readable } from "node:stream";
+import { Readable } from "node:stream";
 import { convertStreamToBuffer } from "./utils.js";
 
 /**
@@ -21,17 +22,23 @@ export class MediaUpload {
 	/**
 	 * Method for uploading Media File by Readable stream.
 	 */
-	static async stream(stream: Readable, filename = "file.stream") {
-		const buffer = await convertStreamToBuffer(stream);
+	static async stream(
+		stream: Readable | ReadableStream,
+		filename = "file.stream",
+	) {
+		const buffer = await convertStreamToBuffer(Readable.from(stream));
 
 		return new File([buffer], filename);
 	}
 
 	/**
-	 * Method for uploading Media File by Buffer or ArrayBuffer.
+	 * Method for uploading Media File by BinaryLike (Buffer or ArrayBuffer and etc).
 	 */
-	static buffer(buffer: Buffer | ArrayBuffer, filename = "file.buffer"): File {
-		return new File([new Blob([buffer])], filename);
+	static buffer(
+		buffer: Exclude<BinaryLike, string>,
+		filename = "file.buffer",
+	): File {
+		return new File([buffer], filename);
 	}
 
 	/**
@@ -44,10 +51,8 @@ export class MediaUpload {
 	) {
 		const res = await fetch(url, options);
 
-		const buffer = await res.arrayBuffer();
-
 		return new File(
-			[new Blob([buffer])],
+			[await res.blob()],
 			filename ??
 				(typeof url === "string" ? basename(url) : basename(url.pathname)),
 		);
