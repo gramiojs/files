@@ -36,7 +36,7 @@
 		"xlsxtable": "^0.3.1"
 	},
 	"dependencies": {
-		"@gramio/types": "^8.1.0"
+		"@gramio/types": "*"
 	},
 	"files": ["dist"],
 	"license": "MIT"
