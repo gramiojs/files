@@ -25,18 +25,18 @@
 		"jsr": "bun scripts/release-jsr.ts"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "1.9.2",
-		"@types/bun": "^1.1.10",
-		"@types/node": "^22.5.5",
-		"gramio": "^0.0.50",
-		"mitata": "^1.0.2",
-		"pkgroll": "^2.5.0",
-		"prettier": "^3.3.3",
-		"typescript": "^5.6.2",
+		"@biomejs/biome": "1.9.4",
+		"@types/bun": "^1.1.14",
+		"@types/node": "^22.10.2",
+		"gramio": "^0.1.5",
+		"mitata": "^1.0.21",
+		"pkgroll": "^2.5.1",
+		"prettier": "^3.4.2",
+		"typescript": "^5.7.2",
 		"xlsxtable": "^0.3.1"
 	},
 	"dependencies": {
-		"@gramio/types": "*"
+		"@gramio/types": "^8.1.0"
 	},
 	"files": ["dist"],
 	"license": "MIT"
