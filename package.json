@@ -13,7 +13,7 @@
 			"default": "./dist/index.cjs"
 		}
 	},
-	"version": "0.1.0",
+	"version": "0.1.2",
 	"type": "module",
 	"description": "Set of utils for work with files and Telegram Bot API",
 	"keywords": ["gramio", "telegram", "file", "files", "upload"],
@@ -36,7 +36,7 @@
 		"xlsxtable": "^0.3.1"
 	},
 	"dependencies": {
-		"@gramio/types": "^7.10.1"
+		"@gramio/types": "*"
 	},
 	"files": ["dist"],
 	"license": "MIT"

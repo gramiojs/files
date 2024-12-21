@@ -13,7 +13,7 @@ export class MediaUpload {
 	/**
 	 * Method for uploading Media File by local path.
 	 */
-	static async path(path: string, filename?: string) {
+	static async path(path: string, filename?: string): Promise<File> {
 		const buffer = await fs.readFile(path);
 
 		return new File([buffer], filename ?? basename(path));
@@ -25,7 +25,7 @@ export class MediaUpload {
 	static async stream(
 		stream: Readable | ReadableStream,
 		filename = "file.stream",
-	) {
+	): Promise<File> {
 		const buffer = await convertStreamToBuffer(Readable.from(stream));
 
 		return new File([buffer], filename);
@@ -48,7 +48,7 @@ export class MediaUpload {
 		url: URL | string,
 		filename?: string,
 		options?: RequestInit,
-	) {
+	): Promise<File> {
 		const res = await fetch(url, options);
 
 		return new File(
@@ -61,7 +61,7 @@ export class MediaUpload {
 	/**
 	 * Method for uploading Media File by text content.
 	 */
-	static text(text: string, filename = "text.txt") {
+	static text(text: string, filename = "text.txt"): File {
 		return new File([text], filename);
 	}
 }
