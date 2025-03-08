@@ -36,7 +36,7 @@ export class MediaUpload {
 	 * Method for uploading Media File by BinaryLike (Buffer or ArrayBuffer and etc).
 	 */
 	static buffer(
-		buffer: Exclude<BinaryLike, string>,
+		buffer: Exclude<BufferSource | ArrayBuffer, string>,
 		filename = "file.buffer",
 	): File {
 		return new File([buffer], filename);

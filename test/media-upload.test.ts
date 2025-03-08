@@ -153,6 +153,38 @@ describe("MediaUpload", () => {
 
 			expect(result.name).toBe(customFilename);
 		});
+
+		describe("ArrayBuffer", () => {
+			test("should create File from numeric ArrayBuffer", () => {
+				const buffer = new ArrayBuffer(4);
+				const view = new Uint32Array(buffer);
+				view[0] = 0x12345678;
+
+				const result = MediaUpload.buffer(buffer, "numbers.bin");
+
+				expect(result.size).toBe(4);
+				expect(result).toBeInstanceOf(File);
+			});
+
+			test("should handle binary data", async () => {
+				const buffer = new ArrayBuffer(3);
+				const bytes = new Uint8Array(buffer);
+				bytes.set([0x41, 0x42, 0x43]);
+
+				const result = MediaUpload.buffer(buffer, "binary.bin");
+				const array = new Uint8Array(await result.arrayBuffer());
+
+				expect(array).toEqual(new Uint8Array([65, 66, 67]));
+			});
+
+			test("should preserve exact bytes", async () => {
+				const original = new Uint8Array([255, 0, 128, 64]);
+				const result = MediaUpload.buffer(original.buffer);
+
+				const received = new Uint8Array(await result.arrayBuffer());
+				expect(received).toEqual(original);
+			});
+		});
 	});
 
 	describe("url", () => {
