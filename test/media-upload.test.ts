@@ -51,27 +51,87 @@ describe("MediaUpload", () => {
 	});
 
 	describe("stream", () => {
-		test("should convert a Readable stream to a File", async () => {
-			const mockContent = Buffer.from("mock stream content");
-			const mockStream = Readable.from([mockContent]);
+		describe("Node.js Readable stream", () => {
+			test("should convert a Readable stream to a File", async () => {
+				const mockContent = Buffer.from("mock stream content");
+				const mockStream = Readable.from([mockContent]);
 
-			const result = await MediaUpload.stream(mockStream);
+				const result = await MediaUpload.stream(mockStream);
 
-			expect(result).toBeInstanceOf(File);
-			expect(result.name).toBe("file.stream");
+				expect(result).toBeInstanceOf(File);
+				expect(result.name).toBe("file.stream");
 
-			const text = await result.text();
-			expect(text).toBe(mockContent.toString());
+				const text = await result.text();
+				expect(text).toBe(mockContent.toString());
+			});
+
+			test("should use custom filename if provided", async () => {
+				const mockContent = Buffer.from("mock stream content");
+				const mockStream = Readable.from([mockContent]);
+				const customFilename = "custom.stream";
+
+				const result = await MediaUpload.stream(mockStream, customFilename);
+
+				expect(result.name).toBe(customFilename);
+			});
 		});
 
-		test("should use custom filename if provided", async () => {
-			const mockContent = Buffer.from("mock stream content");
-			const mockStream = Readable.from([mockContent]);
-			const customFilename = "custom.stream";
+		describe("Web API ReadableStream", () => {
+			test("should convert a ReadableStream to a File", async () => {
+				const mockContent = Buffer.from("web stream content");
+				const webStream = new ReadableStream({
+					start(controller) {
+						controller.enqueue(new Uint8Array(mockContent));
+						controller.close();
+					},
+				});
 
-			const result = await MediaUpload.stream(mockStream, customFilename);
+				const result = await MediaUpload.stream(webStream);
 
-			expect(result.name).toBe(customFilename);
+				expect(result).toBeInstanceOf(File);
+				expect(result.name).toBe("file.stream");
+
+				const text = await result.text();
+				expect(text).toBe(mockContent.toString());
+			});
+
+			test("should handle custom filename with ReadableStream", async () => {
+				const mockContent = Buffer.from("web stream content");
+				const webStream = new ReadableStream({
+					start(controller) {
+						controller.enqueue(new Uint8Array(mockContent));
+						controller.close();
+					},
+				});
+				const customFilename = "web.stream";
+
+				const result = await MediaUpload.stream(webStream, customFilename);
+
+				expect(result.name).toBe(customFilename);
+				expect(result.size).toBe(mockContent.length);
+			});
+
+			test("should handle chunked ReadableStream", async () => {
+				const chunks = [
+					Buffer.from("chunk1 "),
+					Buffer.from("chunk2 "),
+					Buffer.from("chunk3"),
+				];
+
+				const webStream = new ReadableStream({
+					start(controller) {
+						for (const chunk of chunks) {
+							controller.enqueue(new Uint8Array(chunk));
+						}
+						controller.close();
+					},
+				});
+
+				const result = await MediaUpload.stream(webStream);
+				const expectedText = Buffer.concat(chunks).toString();
+
+				expect(await result.text()).toBe(expectedText);
+			});
 		});
 	});
 
