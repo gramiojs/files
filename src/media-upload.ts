@@ -26,6 +26,7 @@ export class MediaUpload {
 		stream: Readable | ReadableStream,
 		filename = "file.stream",
 	): Promise<File> {
+		// TODO: avoid Readable.from
 		const buffer = await convertStreamToBuffer(Readable.from(stream));
 
 		return new File([buffer], filename);

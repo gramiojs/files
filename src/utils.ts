@@ -89,12 +89,16 @@ export async function convertJsonToFormData<T extends keyof APIMethods>(
 	return formData;
 }
 
+// TODO: Avoid this and imagine how to use ReadableStream directly
 /** Helper for convert Readable stream to buffer */
 export function convertStreamToBuffer(stream: Readable): Promise<Buffer> {
 	return new Promise((resolve) => {
 		const chunks: Buffer[] = [];
 
-		stream.on("data", (chunk) => chunks.push(chunk));
+		stream.on("data", (chunk) => {
+			const bufferChunk = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
+			chunks.push(bufferChunk);
+		});
 
 		stream.on("end", () => resolve(Buffer.concat(chunks)));
 	});
