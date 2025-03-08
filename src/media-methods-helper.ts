@@ -16,11 +16,24 @@ type MethodsWithMediaUpload = {
 	];
 };
 
+let isWarned = false;
+
 /** Guard for check is it {@link Blob} or {@link Promise} */
 export function isBlob(blob?: TelegramInputFile | object | string) {
 	if (!blob || typeof blob !== "object") return false;
 
-	return blob instanceof Blob || blob instanceof Promise;
+	if (blob instanceof Promise) {
+		if (!isWarned) {
+			const error = new Error(
+				"Promise<File> is deprecated. Please put await before.",
+			);
+			console.warn(error);
+			isWarned = true;
+		}
+		return true;
+	}
+
+	return blob instanceof Blob;
 }
 
 /**
