@@ -14,10 +14,6 @@ export function isMediaUpload<T extends keyof APIMethods>(
 	return mediaMethod[0](params);
 }
 
-function generateAttachId() {
-	return String(crypto.getRandomValues(new Uint32Array(1))[0]);
-}
-
 interface ExtractorTypings<T = Record<string, Promise<File> | File | string>> {
 	union: Record<string, T>;
 	array: Record<string, T[]>;
@@ -89,7 +85,67 @@ export async function convertJsonToFormData<T extends keyof APIMethods>(
 	return formData;
 }
 
+/**
+ * Helper to extract files from params and convert them to FormData. (Similar to {@link convertJsonToFormData})
+ * if File is not top-level property it will be `“attach://<file_attach_name>”`
+ *
+ * [Documentation](https://core.telegram.org/bots/api#inputfile)
+ */
+export async function extractFilesToFormData<T extends keyof APIMethods>(
+	method: T,
+	params: NonNullable<APIMethodParams<T>>,
+): Promise<[FormData, NonNullable<APIMethodParams<T>>]> {
+	const formData = new FormData();
+	const mediaMethod = MEDIA_METHODS[method];
+	const extractor = mediaMethod?.[1] ?? [];
+
+	let attachId = 0;
+	for (const extractorValue of extractor) {
+		if (isExtractor(extractorValue, "union", params)) {
+			let file = params[extractorValue.property][extractorValue.name];
+			if (file instanceof Promise) file = await file;
+
+			if (!(file instanceof Blob)) continue;
+
+			const currentAttachId = attachId++;
+			formData.set(`file-${currentAttachId}`, file);
+
+			params[extractorValue.property][extractorValue.name] =
+				`attach://file-${currentAttachId}`;
+		}
+		if (isExtractor(extractorValue, "array", params)) {
+			const array = params[extractorValue.property];
+
+			for (const [index, element] of array.entries()) {
+				let file = element[extractorValue.name];
+				if (file instanceof Promise) file = await file;
+
+				if (!(file instanceof Blob)) continue;
+
+				const currentAttachId = attachId++;
+				formData.set(`file-${currentAttachId}`, file);
+
+				params[extractorValue.property][index][extractorValue.name] =
+					`attach://file-${currentAttachId}`;
+			}
+		}
+	}
+
+	for (let [key, value] of Object.entries(params)) {
+		if (value instanceof Promise) value = await value;
+
+		if (value instanceof Blob) {
+			formData.append(key, value);
+			// @ts-expect-error
+			delete params[key];
+		}
+	}
+
+	return [formData, params];
+}
+
 // TODO: Avoid this and imagine how to use ReadableStream directly
+// But there no ways...
 /** Helper for convert Readable stream to buffer */
 export function convertStreamToBuffer(stream: Readable): Promise<Buffer> {
 	return new Promise((resolve) => {
