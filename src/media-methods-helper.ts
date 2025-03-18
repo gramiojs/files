@@ -18,7 +18,7 @@ type MethodsWithMediaUpload = {
 
 let isWarned = false;
 
-/** Guard for check is it {@link Blob} or {@link Promise} */
+/** Guard to check is it {@link Blob} or {@link Promise} */
 export function isBlob(blob?: TelegramInputFile | object | string) {
 	if (!blob || typeof blob !== "object") return false;
 

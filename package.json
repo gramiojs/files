@@ -13,9 +13,9 @@
 			"default": "./dist/index.cjs"
 		}
 	},
-	"version": "0.1.3",
+	"version": "0.2.0",
 	"type": "module",
-	"description": "Set of utils for work with files and Telegram Bot API",
+	"description": "Set of utils to work with files uploading to Telegram Bot API",
 	"keywords": ["gramio", "telegram", "file", "files", "upload"],
 	"scripts": {
 		"generate": "bun scripts/generate.ts",
@@ -26,7 +26,7 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
-		"@types/bun": "^1.2.4",
+		"@types/bun": "^1.2.5",
 		"@types/node": "^22.13.10",
 		"gramio": "^0.2.4",
 		"mitata": "^1.0.34",
