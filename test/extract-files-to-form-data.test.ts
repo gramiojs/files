@@ -94,7 +94,7 @@ describe("extractFilesToFormData", () => {
 			params,
 		);
 
-		expect([...formData.entries()]).toEqual([]);
+		expect([...(formData?.entries() ?? [])]).toEqual([]);
 		expect(modifiedParams).toEqual(params);
 	});
 });

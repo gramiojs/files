@@ -94,8 +94,9 @@ export async function convertJsonToFormData<T extends keyof APIMethods>(
 export async function extractFilesToFormData<T extends keyof APIMethods>(
 	method: T,
 	params: NonNullable<APIMethodParams<T>>,
-): Promise<[FormData, NonNullable<APIMethodParams<T>>]> {
+): Promise<[FormData | undefined, NonNullable<APIMethodParams<T>>]> {
 	const formData = new FormData();
+	let isEmpty = true;
 	const mediaMethod = MEDIA_METHODS[method];
 	const extractor = mediaMethod?.[1] ?? [];
 
@@ -109,6 +110,7 @@ export async function extractFilesToFormData<T extends keyof APIMethods>(
 
 			const currentAttachId = attachId++;
 			formData.set(`file-${currentAttachId}`, file);
+			isEmpty = false;
 
 			params[extractorValue.property][extractorValue.name] =
 				`attach://file-${currentAttachId}`;
@@ -124,6 +126,7 @@ export async function extractFilesToFormData<T extends keyof APIMethods>(
 
 				const currentAttachId = attachId++;
 				formData.set(`file-${currentAttachId}`, file);
+				isEmpty = false;
 
 				params[extractorValue.property][index][extractorValue.name] =
 					`attach://file-${currentAttachId}`;
@@ -136,12 +139,14 @@ export async function extractFilesToFormData<T extends keyof APIMethods>(
 
 		if (value instanceof Blob) {
 			formData.append(key, value);
+			isEmpty = false;
+
 			// @ts-expect-error
 			delete params[key];
 		}
 	}
 
-	return [formData, params];
+	return [isEmpty ? undefined : formData, params];
 }
 
 // TODO: Avoid this and imagine how to use ReadableStream directly
