@@ -66,18 +66,9 @@ export const MEDIA_METHODS: MethodsWithMediaUpload = {
 		null,
 	],
 	sendPaidMedia: [
-		(params) => params.media.some((x) => "media" in x && isBlob(x.media)),
-		[
-			{
-				name: "media",
-				property: "media",
-				type: "array",
-			},
-		],
-	],
-	sendMediaGroup: [
 		(params) =>
 			params.media.some((x) => "media" in x && isBlob(x.media)) ||
+			params.media.some((x) => "cover" in x && isBlob(x.cover)) ||
 			params.media.some((x) => "thumbnail" in x && isBlob(x.thumbnail)),
 		[
 			{
@@ -86,7 +77,35 @@ export const MEDIA_METHODS: MethodsWithMediaUpload = {
 				type: "array",
 			},
 			{
+				name: "cover",
+				property: "media",
+				type: "array",
+			},
+			{
 				name: "thumbnail",
+				property: "media",
+				type: "array",
+			},
+		],
+	],
+	sendMediaGroup: [
+		(params) =>
+			params.media.some((x) => "media" in x && isBlob(x.media)) ||
+			params.media.some((x) => "thumbnail" in x && isBlob(x.thumbnail)) ||
+			params.media.some((x) => "cover" in x && isBlob(x.cover)),
+		[
+			{
+				name: "media",
+				property: "media",
+				type: "array",
+			},
+			{
+				name: "thumbnail",
+				property: "media",
+				type: "array",
+			},
+			{
+				name: "cover",
 				property: "media",
 				type: "array",
 			},
@@ -96,7 +115,8 @@ export const MEDIA_METHODS: MethodsWithMediaUpload = {
 	editMessageMedia: [
 		(params) =>
 			("media" in params.media && isBlob(params.media.media)) ||
-			("thumbnail" in params.media && isBlob(params.media.thumbnail)),
+			("thumbnail" in params.media && isBlob(params.media.thumbnail)) ||
+			("cover" in params.media && isBlob(params.media.cover)),
 		[
 			{
 				name: "media",
@@ -105,6 +125,11 @@ export const MEDIA_METHODS: MethodsWithMediaUpload = {
 			},
 			{
 				name: "thumbnail",
+				property: "media",
+				type: "union",
+			},
+			{
+				name: "cover",
 				property: "media",
 				type: "union",
 			},
@@ -126,4 +151,56 @@ export const MEDIA_METHODS: MethodsWithMediaUpload = {
 	addStickerToSet: [(params) => isBlob(params.sticker.sticker), null],
 	replaceStickerInSet: [(params) => isBlob(params.sticker.sticker), null],
 	setStickerSetThumbnail: [(params) => isBlob(params.thumbnail), null],
+
+	setBusinessAccountProfilePhoto: [
+		(params) =>
+			(params.photo.type === "static" && isBlob(params.photo.photo)) ||
+			(params.photo.type === "animated" && isBlob(params.photo.animation)),
+		[
+			{
+				name: "photo",
+				property: "photo",
+				type: "union",
+			},
+			{
+				name: "animation",
+				property: "photo",
+				type: "union",
+			},
+		],
+	],
+	postStory: [
+		(params) =>
+			(params.content.type === "photo" && isBlob(params.content.photo)) ||
+			(params.content.type === "video" && isBlob(params.content.video)),
+		[
+			{
+				name: "photo",
+				property: "content",
+				type: "union",
+			},
+			{
+				name: "video",
+				property: "content",
+				type: "union",
+			},
+		],
+	],
+	editStory: [
+		(params) =>
+			(params.content.type === "photo" && isBlob(params.content.photo)) ||
+			(params.content.type === "video" && isBlob(params.content.video)),
+		[
+			{
+				name: "photo",
+				property: "content",
+				type: "union",
+			},
+			{
+				name: "video",
+				property: "content",
+				type: "union",
+			},
+		],
+	],
 };

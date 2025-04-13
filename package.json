@@ -13,7 +13,7 @@
 			"default": "./dist/index.cjs"
 		}
 	},
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"type": "module",
 	"description": "Set of utils to work with files uploading to Telegram Bot API",
 	"keywords": ["gramio", "telegram", "file", "files", "upload"],
@@ -26,17 +26,17 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
-		"@types/bun": "^1.2.5",
-		"@types/node": "^22.13.10",
-		"gramio": "^0.2.4",
+		"@types/bun": "^1.2.9",
+		"@types/node": "^22.14.1",
+		"gramio": "^0.2.6",
 		"mitata": "^1.0.34",
-		"pkgroll": "^2.11.2",
+		"pkgroll": "^2.12.1",
 		"prettier": "^3.5.3",
-		"typescript": "^5.8.2",
+		"typescript": "^5.8.3",
 		"xlsxtable": "^0.3.1"
 	},
 	"dependencies": {
-		"@gramio/types": "*"
+		"@gramio/types": "^9.0.0"
 	},
 	"files": ["dist"],
 	"license": "MIT"
