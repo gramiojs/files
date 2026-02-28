@@ -1,4 +1,3 @@
-import type { BinaryLike } from "node:crypto";
 import fs from "node:fs/promises";
 import { basename } from "node:path";
 import { Readable } from "node:stream";
@@ -16,7 +15,7 @@ export class MediaUpload {
 	static async path(path: string, filename?: string): Promise<File> {
 		const buffer = await fs.readFile(path);
 
-		return new File([buffer], filename ?? basename(path));
+		return new File([new Uint8Array(buffer)], filename ?? basename(path));
 	}
 
 	/**
@@ -29,7 +28,7 @@ export class MediaUpload {
 		// TODO: avoid Readable.from
 		const buffer = await convertStreamToBuffer(Readable.from(stream));
 
-		return new File([buffer], filename);
+		return new File([new Uint8Array(buffer)], filename);
 	}
 
 	/**
@@ -39,7 +38,11 @@ export class MediaUpload {
 		buffer: Exclude<BufferSource | ArrayBuffer, string>,
 		filename = "file.buffer",
 	): File {
-		return new File([buffer], filename);
+		const blobPart = ArrayBuffer.isView(buffer)
+			? new Uint8Array(buffer.buffer, buffer.byteOffset, buffer.byteLength)
+			: buffer;
+
+		return new File([blobPart], filename);
 	}
 
 	/**
