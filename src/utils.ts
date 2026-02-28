@@ -76,6 +76,8 @@ export async function convertJsonToFormData<T extends keyof APIMethods>(
 	for (let [key, value] of Object.entries(params)) {
 		if (value instanceof Promise) value = await value;
 
+		if (value === undefined) continue;
+
 		if (value instanceof Blob) formData.append(key, value);
 		else if (typeof value === "object")
 			formData.append(key, JSON.stringify(value));
@@ -136,6 +138,8 @@ export async function extractFilesToFormData<T extends keyof APIMethods>(
 
 	for (let [key, value] of Object.entries(params)) {
 		if (value instanceof Promise) value = await value;
+
+		if (value === undefined) continue;
 
 		if (value instanceof Blob) {
 			formData.append(key, value);
