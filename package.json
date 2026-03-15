@@ -4,16 +4,28 @@
 	"module": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"exports": {
-		"import": {
-			"types": "./dist/index.d.ts",
-			"default": "./dist/index.js"
+		".": {
+			"import": {
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.js"
+			},
+			"require": {
+				"types": "./dist/index.d.cts",
+				"default": "./dist/index.cjs"
+			}
 		},
-		"require": {
-			"types": "./dist/index.d.cts",
-			"default": "./dist/index.cjs"
+		"./middleware": {
+			"import": {
+				"types": "./dist/middleware.d.ts",
+				"default": "./dist/middleware.js"
+			},
+			"require": {
+				"types": "./dist/middleware.d.cts",
+				"default": "./dist/middleware.cjs"
+			}
 		}
 	},
-	"version": "0.3.1",
+	"version": "0.4.0",
 	"type": "module",
 	"description": "Set of utils to work with files uploading to Telegram Bot API",
 	"keywords": ["gramio", "telegram", "file", "files", "upload"],
